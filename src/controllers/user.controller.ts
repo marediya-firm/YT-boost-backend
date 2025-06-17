@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 // import { verifyGoogleIdToken } from "../config/jwt";
 import { OAuth2Client } from "google-auth-library";
+import mongoose from "mongoose";
+import { UserModel } from "../model/user.model";
 
 interface GetUsersRequestBody {
   token: string;
@@ -22,8 +24,8 @@ export const getUsers = async (
     });
 
     const payload = ticket.getPayload();
-    console.log("payload",payload);
-    
+    console.log("payload", payload);
+
     // console.log("req?.body?.token", req?.body?.token);
     // const decoded = jwt.verify(req.body.token, () => {});
     // console.log("decoded", decoded);
@@ -34,6 +36,12 @@ export const getUsers = async (
   }
 };
 export const createUser = (req: Request, res: Response) => {
-  const { name } = req.body;
-  res.status(201).json({ message: `User ${name} created.` });
+  console.log("req.body", req.body);
+
+  const response = new UserModel(req.body);
+  response.save();
+  // .then((user) => res.status(201).json(user))
+  // .catch((err) => res.status(500).json(err));
+  // console.log("response", response);
+  res.send(201);
 };
