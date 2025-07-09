@@ -1,7 +1,15 @@
 import { Router } from "express";
-import { getUsers, createUser } from "../controllers/user.controller";
+import { createUser } from "../controllers/user.controller";
 
 const router = Router();
 
-router.get("/me", getUsers).post("/create", createUser);
+router
+  .get("/me", (req, res) => {
+    console.log(req.userId);
+    res.sendStatus(200);
+  })
+  .post("/create", createUser)
+  .get("/serverIsRunning", (_, res) => {
+    res.sendStatus(200);
+  });
 export default router;
