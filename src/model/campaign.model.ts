@@ -37,6 +37,10 @@ const CampaignMainSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    watch: {
+      type: Number,
+      default: 0,
+    },
     duration: {
       type: Number,
       required: true,
@@ -48,7 +52,11 @@ const CampaignMainSchema = new mongoose.Schema(
 );
 
 // Combined Unique Index
+// Prevent same video from being added twice by same user
 CampaignMainSchema.index({ userId: 1, videoId: 1 }, { unique: true });
+
+// Improve pagination/sorting for latest uploads
+CampaignMainSchema.index({ userId: 1, createdAt: -1 });
 
 export const CampaignMainModel = mongoose.model(
   "campaign_main",

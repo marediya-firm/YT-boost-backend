@@ -6,8 +6,6 @@ import { UserModel } from "../model/user.model";
  * *which route without token accessible
  */
 const withoutTokenAccess = {
-  // ["/auth/login"]: "/auth/login",
-  // ["/auth/createaccount"]: "/auth/createaccount",
   ["/api/users/auth/create"]: "/api/users/auth/create",
   ["/api/users/auth/serverIsRunning"]: "/api/users/auth/serverIsRunning",
 } as const;
@@ -27,11 +25,11 @@ export const accessPermission = async (
       res.status(204).end(); // No Content response
       return;
     }
-    console.log("===<<<<path===>>>>", path);
+    console.log("api url", path);
     if (withoutTokenAccess[path]) return next();
     const tokenValue =
       req?.headers?.authorization?.split(" ")?.[1] ?? ("" as string);
-    console.log("+++++++tokenValue", tokenValue);
+    console.log("user token", tokenValue);
 
     /**
      * For future reference
@@ -43,7 +41,7 @@ export const accessPermission = async (
      * TODO compete without authentication
      */
     // next();
-    console.log("findUserFromToken", findUserFromToken?.idToken);
+    console.log("user token from db", findUserFromToken?.idToken);
     if (findUserFromToken?.idToken) {
       req.userId = findUserFromToken?._id ?? "";
       next();
