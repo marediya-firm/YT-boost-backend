@@ -1,7 +1,13 @@
 import { Router } from "express";
-import { getCampaign, saveCampaign } from "../controllers/campaign.controller";
-// import { createUser } from "../controllers/user.controller";
+import {
+  getCampaign,
+  getUserUploadedCampaign,
+  saveCampaign,
+} from "../controllers/campaign.controller";
 
 const router = Router();
-router.post("/saveCampaign", saveCampaign).get("/getCampaign", getCampaign);
+router
+  .post("/saveCampaign", saveCampaign)
+  .get("/getUserUploadedCampaign", getUserUploadedCampaign)
+  .post("/getCampaign", getCampaign);
 export default router;
